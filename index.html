@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幼教心理学互动系统 - 旗舰版</title>
+    <script src="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&display=swap');
+
+        :root { 
+            --glass: rgba(255, 255, 255, 0.5); 
+            --glass-deep: rgba(255, 255, 255, 0.7);
+            --border: rgba(255, 255, 255, 0.5); 
+            --accent: #f43f5e;
+        }
+
+        body { 
+            background: linear-gradient(135deg, #fef2f2 0%, #e0f2fe 50%, #f5f3ff 100%); 
+            min-height: 100vh;
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 玻璃拟态核心样式 */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .glass-card {
+            background: var(--glass-deep);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.05);
+        }
+
+        /* 按钮动画 */
+        .btn-glass {
+            background: linear-gradient(135deg, #fb7185 0%, #f43f5e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-glass:hover {
+            filter: brightness(1.1);
+            transform: scale(1.05);
+        }
+
+        /* 进度条动画 */
+        .progress-bar {
+            height: 6px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.5s ease-out;
+        }
+
+        /* 侧边栏动画 */
+        .log-entry {
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 视频容器 */
+        .video-placeholder {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            background: #000;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+        .video-placeholder iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* 输入框焦点 */
+        input:focus, textarea:focus {
+            ring: 2px solid var(--accent);
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- 启动层 -->
+    <div id="loginLayer" class="fixed inset-0 z-50 flex items-center justify-center bg-white/20 backdrop-blur-2xl">
+        <div class="glass-card p-12 max-w-md w-full text-center space-y-8">
+            <div class="relative inline-block">
+                <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-25"></div>
+                <div class="relative bg-white p-4 rounded-full text-4xl">🎓</div>
+            </div>
+            <div>
+                <h1 class="text-3xl font-black text-gray-800 tracking-tight">实名互动云课堂</h1>
+                <p class="text-gray-500 mt-2">皮连生《学与教的心理学》深度互动</p>
+            </div>
+            <div class="space-y-4">
+                <input type="text" id="stuName" placeholder="您的真实姓名" class="w-full p-4 rounded-2xl border-none glass text-center font-bold text-lg focus:ring-2 focus:ring-rose-400">
+                <button onclick="initApp()" class="w-full btn-glass py-4 text-lg font-bold">开启沉浸式学习</button>
+            </div>
+            <p class="text-[10px] text-gray-400 uppercase tracking-widest">Powered by GitHub API | Teacher: stzhangym</p>
+        </div>
+    </div>
+
+    <!-- 顶部导航 -->
+    <header class="max-w-7xl mx-auto mb-8 flex justify-between items-center px-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-rose-500 rounded-xl flex items-center justify-center text-white font-bold">P</div>
+            <div>
+                <h2 class="font-bold text-gray-800">伯林纳阶段测评</h2>
+                <p class="text-[10px] text-gray-400 uppercase">Interaction Hub</p>
+            </div>
+        </div>
+        <div class="glass px-6 py-2 rounded-full text-xs font-bold text-rose-500 flex items-center gap-2">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            实时数据同步中
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- 侧边栏：实时足迹 -->
+        <aside class="lg:col-span-3 order-2 lg:order-1">
+            <div class="glass-card p-6 h-full min-h-[500px] flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-gray-400">全班足迹</h3>
+                    <span class="text-[10px] bg-rose-100 text-rose-500 px-2 py-0.5 rounded">LIVE</span>
+                </div>
+                <div id="logBox" class="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                    <p class="text-center text-xs text-gray-400 py-10 italic">连接 GitHub 云端...</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主操作区 -->
+        <main class="lg:col-span-9 order-1 lg:order-2 space-y-8">
+            
+            <!-- 进度显示 -->
+            <div class="glass-card p-4 flex items-center gap-6">
+                <div class="flex-1">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="text-xs font-bold text-gray-500"><span id="qIdx">1</span> / 6</div>
+            </div>
+
+            <!-- 情境卡片 -->
+            <div id="mainStage" class="glass-card p-8 md:p-12 min-h-[600px] relative overflow-hidden">
+                
+                <!-- 视频/多媒体区 -->
+                <div id="mediaArea" class="mb-8 hidden">
+                    <div class="video-placeholder">
+                        <iframe id="videoFrame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-2 text-center">建议观看视频后进行心理决策</p>
+                </div>
+
+                <!-- 文本互动区 -->
+                <div id="quizArea">
+                    <div class="flex items-start gap-4 mb-8">
+                        <span id="themeTag" class="px-3 py-1 bg-rose-500 text-white text-[10px] rounded-md font-bold uppercase tracking-tighter">生存关注</span>
+                        <h4 id="qText" class="text-xl md:text-2xl font-bold text-gray-800 leading-tight"></h4>
+                    </div>
+
+                    <!-- 动态视觉效果占位 -->
+                    <div id="visualEffect" class="mb-10 h-32 flex items-center justify-center bg-white/30 rounded-3xl border border-white/50">
+                        <p class="text-xs text-gray-400">场景动画生成中...</p>
+                    </div>
+
+                    <div id="options" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"></div>
+
+                    <!-- 开放性输入区 -->
+                    <div id="reflectionArea" class="mt-10 hidden">
+                        <label class="block text-sm font-bold text-gray-500 mb-3 ml-2 italic">你觉得这种处理方式对幼儿的影响是什么？（请简述）</label>
+                        <textarea id="reflectionInput" class="w-full glass p-6 rounded-3xl min-h-[120px] text-gray-700 placeholder-gray-400" placeholder="写下你的教育心理学思考..."></textarea>
+                        <button onclick="submitStep()" class="mt-6 btn-glass px-10 py-4 font-bold float-right">提交本阶段决策</button>
+                    </div>
+                </div>
+
+                <!-- 结果展示 -->
+                <div id="resultArea" class="hidden text-center py-12 space-y-8">
+                    <div class="text-7xl">🌟</div>
+                    <div>
+                        <h4 class="text-3xl font-black text-gray-800">测评完成！</h4>
+                        <p id="finalStage" class="text-xl text-rose-500 font-bold mt-2"></p>
+                    </div>
+                    <div class="max-w-md mx-auto p-6 bg-white/40 rounded-3xl border border-white text-sm text-gray-500 leading-relaxed">
+                        根据伯林纳(Berliner)的教师成长理论，您表现出的特质与教材第28页的阶段描述高度吻合。
+                    </div>
+                    <button onclick="location.reload()" class="px-12 py-4 border-2 border-rose-400 text-rose-500 rounded-2xl font-bold hover:bg-rose-50 transition-all">同步结果并重新开始</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- 核心配置 ---
+        const CONFIG = {
+            token: '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', 
+            owner: 'stzhangym', 
+            repo: 'kindergarten-class'
+        };
+
+        let username = '';
+        let currentIdx = 0;
+        let scores = [];
+        let tempChoice = "";
+
+        const questions = [
+            { 
+                theme: "生存关注", 
+                q: "新学期入园季：班级里有3个孩子同时大哭，家长在窗外指点，你感到手足无措。", 
+                ops: ["感到极度受挫，怀疑自己是否适合这份工作。(1分)", "试图回忆教材中的‘依恋理论’来平复心情。(2分)", "迅速建立区域游戏，通过转移注意力化解焦虑。(3分)"],
+                video: "https://player.bilibili.com/player.html?bvid=BV1uL411p7vV", // 示例视频
+                visual: `<svg viewBox="0 0 200 100" class="w-48 h-24"><circle cx="50" cy="50" r="20" fill="#fb7185" opacity="0.5"><animate attributeName="r" values="20;25;20" dur="2s" repeatCount="indefinite"/></circle><circle cx="150" cy="50" r="15" fill="#60a5fa" opacity="0.5"/></svg>`
+            },
+            { 
+                theme: "任务关注", 
+                q: "公开课突发：你的多媒体课件突然黑屏，全园教师正在后排听课。", 
+                ops: ["非常担心考核成绩，感到大脑一片空白。(1分)", "开始反思自己对现代教育技术的准备不足。(2分)", "从容切换到即兴讲故事环节，展示深厚基本功。(3分)"],
+                visual: `<svg viewBox="0 0 200 100" class="w-48 h-24"><rect x="40" y="30" width="120" height="40" fill="#374151"><animate attributeName="opacity" values="1;0.2;1" dur="1s" repeatCount="indefinite"/></rect></svg>`
+            },
+            { 
+                theme: "学生关注", 
+                q: "特殊幼儿观察：班里一名自闭倾向幼儿今天第一次主动分享了玩具。", 
+                ops: ["作为常规工作记录下来，准备应付教学日志。(1分)", "翻阅《皮连生-学与教的心理学》分析其发展阶段。(2分)", "立即调整全周计划，为该生设计专项的社交融入活动。(3分)"],
+                reflection: true 
+            },
+            { 
+                theme: "专家阶段", 
+                q: "日常节奏：面对繁杂的班级日常，你的大脑现在处于什么状态？", 
+                ops: ["每天都在‘救火’，精疲力竭。(1分)", "已经掌握套路，能有条不紊处理，但缺乏新意。(2分)", "常规工作已进入‘自动化’模式，能随时捕捉幼儿眼中的神采。(3分)"],
+                visual: `<svg viewBox="0 0 200 100" class="w-48 h-24"><path d="M50 50 Q100 20 150 50" stroke="#f43f5e" fill="transparent" stroke-width="4"><animate attributeName="d" values="M50 50 Q100 20 150 50;M50 50 Q100 80 150 50;M50 50 Q100 20 150 50" dur="3s" repeatCount="indefinite"/></path></svg>`
+            }
+        ];
+
+        async function initApp() {
+            const nameInput = document.getElementById('stuName').value.trim();
+            if(!nameInput) return alert('请输入真实姓名以同步数据');
+            username = nameInput;
+            document.getElementById('loginLayer').classList.add('hidden');
+            
+            await pushToGithub(`[正式加入课堂] 开启心理学沉浸式实测`);
+            loadQuiz();
+            startSync();
+        }
+
+        async function pushToGithub(action, detail = "") {
+            try {
+                await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/issues`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${CONFIG.token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                    },
+                    body: JSON.stringify({
+                        title: `${username}: ${action}`,
+                        body: `用户: ${username}\n记录时间: ${new Date().toLocaleString()}\n动作: ${action}\n补充详情: ${detail}`,
+                        labels: ['flagship-interaction']
+                    })
+                });
+            } catch (e) { console.error('Cloud Sync Error', e); }
+        }
+
+        async function startSync() {
+            const fetchLogs = async () => {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/issues?labels=flagship-interaction&per_page=12&state=all`);
+                    const data = await res.json();
+                    const box = document.getElementById('logBox');
+                    if(Array.isArray(data)) {
+                        box.innerHTML = data.map(issue => `
+                            <div class="log-entry p-4 bg-white/40 rounded-2xl border border-white/60 shadow-sm">
+                                <p class="text-[10px] font-bold text-rose-500 mb-1">${issue.title.split(':')[0]}</p>
+                                <p class="text-[11px] text-gray-600 leading-tight">${issue.title.split(':')[1]}</p>
+                                <p class="text-[8px] text-gray-400 mt-2">${new Date(issue.created_at).toLocaleTimeString()}</p>
+                            </div>
+                        `).join('');
+                    }
+                } catch (e) {}
+            };
+            fetchLogs();
+            setInterval(fetchLogs, 8000);
+        }
+
+        function loadQuiz() {
+            const current = questions[currentIdx];
+            if(!current) { showResult(); return; }
+
+            // 更新 UI
+            document.getElementById('qIdx').innerText = currentIdx + 1;
+            document.getElementById('progressFill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+            document.getElementById('themeTag').innerText = current.theme;
+            document.getElementById('qText').innerText = current.q;
+            document.getElementById('visualEffect').innerHTML = current.visual || '<p class="text-xs text-gray-300">情境模拟中...</p>';
+            
+            // 视频展示逻辑
+            const mediaArea = document.getElementById('mediaArea');
+            if(current.video) {
+                mediaArea.classList.remove('hidden');
+                document.getElementById('videoFrame').src = current.video;
+            } else {
+                mediaArea.classList.add('hidden');
+            }
+
+            // 选项渲染
+            const opsBox = document.getElementById('options');
+            opsBox.innerHTML = current.ops.map((o, idx) => `
+                <button onclick="handleOptionClick(${idx})" id="op-${idx}" class="w-full text-left p-6 glass-card hover:bg-white transition-all text-sm text-gray-600 leading-relaxed border border-transparent">
+                    <span class="inline-block w-6 h-6 rounded-full bg-rose-100 text-rose-500 text-center leading-6 text-[10px] font-black mr-3">${String.fromCharCode(65+idx)}</span>
+                    ${o}
+                </button>
+            `).join('');
+
+            // 重置输入区
+            document.getElementById('reflectionArea').classList.add('hidden');
+            document.getElementById('reflectionInput').value = "";
+        }
+
+        function handleOptionClick(idx) {
+            // 高选效果
+            document.querySelectorAll('#options button').forEach(b => b.classList.remove('border-rose-400', 'bg-white'));
+            document.getElementById(`op-${idx}`).classList.add('border-rose-400', 'bg-white');
+            
+            const current = questions[currentIdx];
+            tempChoice = current.ops[idx];
+            scores[currentIdx] = idx + 1;
+
+            if(current.reflection) {
+                document.getElementById('reflectionArea').classList.remove('hidden');
+                document.getElementById('reflectionArea').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                submitStep();
+            }
+        }
+
+        async function submitStep() {
+            const reflection = document.getElementById('reflectionInput').value;
+            await pushToGithub(`决策: ${tempChoice.split('(')[0]}`, reflection ? `感悟: ${reflection}` : "选择题");
+            
+            currentIdx++;
+            loadQuiz();
+        }
+
+        function showResult() {
+            document.getElementById('quizArea').classList.add('hidden');
+            document.getElementById('mediaArea').classList.add('hidden');
+            document.getElementById('resultArea').classList.remove('hidden');
+            
+            const total = scores.reduce((a, b) => a + (b || 0), 0);
+            let stage = "";
+            if(total <= 6) stage = "新手阶段：关注生存与评价";
+            else if(total <= 10) stage = "胜任阶段：关注教学任务与规范";
+            else stage = "专家倾向：关注幼儿个体差异与发展";
+            
+            document.getElementById('finalStage').innerText = stage;
+            pushToGithub(`测评大功告成！结论：${stage}`);
+        }
+    </script>
+</body>
+</html>
