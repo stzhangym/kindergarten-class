@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学与教的心理学 - 第一章：教师心理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 pb-20">
+
+    <nav class="bg-blue-600 text-white p-4 sticky top-0 z-50 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="font-bold text-lg">教师心理学习助手</h1>
+            <div class="space-x-4 text-sm">
+                <button onclick="showTab('task')" class="hover:underline">任务驱动</button>
+                <button onclick="showTab('terms')" class="hover:underline">名词解释</button>
+                <button onclick="showTab('quiz')" class="hover:underline">互动测验</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-4 mt-6">
+        
+        <section id="task" class="tab-content active space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                <h2 class="text-xl font-bold mb-4">🏆 任务驱动：通向专家型教师</h2>
+                <div class="space-y-4">
+                    <div class="p-3 bg-blue-50 rounded">
+                        <p class="font-semibold text-blue-700">任务 1：画像扫描</p>
+                        <p class="text-sm">对比“专家”与“新手”在计划、课堂、评价阶段的差异。</p>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded">
+                        <p class="font-semibold text-green-700">任务 2：角色认知</p>
+                        <p class="text-sm">结合工作实例，说出教师作为“心理调节者”和“管理者”的区别。</p>
+                    </div>
+                    <div class="p-3 bg-purple-50 rounded">
+                        <p class="font-semibold text-purple-700">任务 3：成长诊断</p>
+                        <p class="text-sm">自测：你目前处于关注生存、关注情境还是关注学生阶段？</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="terms" class="tab-content space-y-4">
+            <h2 class="text-xl font-bold mb-4">📚 核心名词手册</h2>
+            <div class="grid gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <span class="font-bold text-blue-600">教学效能感：</span> 教师对影响学生行为和成绩能力的主观判断。
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <span class="font-bold text-blue-600">罗森塔尔效应：</span> 教师通过期待和暗示，使学生产生符合期望的进步。
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <span class="font-bold text-blue-600">教学监控能力：</span> 教师对教学活动进行的自我观察、调节和控制。
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                    <span class="font-bold text-blue-600">职业倦怠：</span> 表现为情绪衰竭、去个性化和低个人成就感。
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="tab-content">
+            <h2 class="text-xl font-bold mb-4">📝 30道挑战题</h2>
+            <div id="quiz-container" class="space-y-6">
+                </div>
+            <div class="mt-8 p-6 bg-slate-800 text-white rounded-xl text-center">
+                <p id="final-score" class="text-lg">完成测验后查看结果</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // 选项切换逻辑
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        // 题目数据（展示前10题作为示例，你可以按格式扩充至30题）
+        const quizData = [
+            { q: "教师成长的最高阶段是？", a: ["关注生存阶段", "关注情境阶段", "关注学生阶段", "关注自我阶段"], c: 2 },
+            { q: "教师对自己影响学生学习能力的主观判断是？", a: ["教学效能感", "教学反思", "教学策略", "教学风格"], c: 0 },
+            { q: "“皮格马利翁效应”的核心是？", a: ["教师知识", "教师期望", "教师人格", "教学技能"], c: 1 },
+            { q: "微格教学通常持续的时间是？", a: ["5-20分钟", "45分钟", "一整天", "两小时"], c: 0 },
+            { q: "专家型教师在课前计划时更关注？", a: ["具体细节", "学生发展", "教材文字", "纪律维持"], c: 1 },
+            { q: "教师角色的核心特征是？", a: ["多样性", "单一性", "稳定性", "被动性"], c: 0 },
+            { q: "成长公式：经验 + 反思 = 成长，是谁提出的？", a: ["布鲁纳", "罗森塔尔", "波斯纳", "福勒"], c: 2 },
+            { q: "职业倦怠中，对学生表现出冷漠、讽刺属于？", a: ["情绪衰竭", "去个性化", "成就感低", "身体疲劳"], c: 1 },
+            { q: "教师的本体性知识是指？", a: ["教育学知识", "心理学知识", "学科专业知识", "常识性知识"], c: 2 },
+            { q: "判断教师成熟的重要标志是是否自觉关注？", a: ["生存", "情境", "学生", "教案"], c: 2 }
+        ];
+
+        // 渲染题目
+        const container = document.getElementById('quiz-container');
+        quizData.forEach((data, index) => {
+            const div = document.createElement('div');
+            div.className = "bg-white p-5 rounded-xl shadow-sm";
+            div.innerHTML = `
+                <p class="font-bold mb-3">${index + 1}. ${data.q}</p>
+                <div class="space-y-2">
+                    ${data.a.map((opt, i) => `
+                        <button onclick="checkAnswer(${index}, ${i}, this)" 
+                                class="w-full text-left p-3 rounded border border-slate-200 hover:bg-blue-50 transition">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p id="feedback-${index}" class="mt-2 text-sm hidden"></p>
+            `;
+            container.appendChild(div);
+        });
+
+        function checkAnswer(qIdx, choice, btn) {
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            const isCorrect = choice === quizData[qIdx].c;
+            
+            // 禁用该题所有按钮
+            const buttons = btn.parentElement.querySelectorAll('button');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700');
+                feedback.innerText = "✅ 正确！";
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-700');
+                buttons[quizData[qIdx].c].classList.add('bg-green-100', 'text-green-700');
+                feedback.innerText = "❌ 选错了。";
+            }
+            feedback.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
