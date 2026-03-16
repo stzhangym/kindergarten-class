@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第2章：学生的心理发展与个别差异 - 课件</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary: #2563eb; /* 智慧蓝 */
+            --secondary: #059669; /* 成长绿 */
+            --accent: #d97706; /* 活力橙 */
+            --bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #000;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: none;
+            padding: 3rem 4rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-slide {
+            background: linear-gradient(135deg, #1e40af 0%, #1e1b4b 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .header {
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .content {
+            flex-grow: 1;
+            font-size: 1.3rem;
+            line-height: 1.7;
+            overflow-y: auto;
+        }
+
+        .footer {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 0.5rem;
+        }
+
+        .highlight-box {
+            background: white;
+            border-left: 6px solid var(--primary);
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+            border-radius: 0.4rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(30, 64, 175, 0.9);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 6px;
+            background: var(--secondary);
+            z-index: 200;
+            transition: width 0.3s;
+        }
+
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .theory-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+
+        .theory-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="timer" id="timer">90:00</div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active title-slide">
+        <h1 class="text-5xl font-black mb-6">第2章：学生的心理发展与个别差异</h1>
+        <p class="text-2xl opacity-80 mb-12">——理解成长的轨迹与生命的独特性</p>
+        <div class="bg-white/10 p-6 rounded-lg backdrop-blur-md">
+            《学与教的心理学》第六版<br>
+            主讲人：[您的名字]
+        </div>
+    </div>
+
+    <!-- Slide 2: Table of Contents -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">本章核心脉络</h2>
+        </div>
+        <div class="content">
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <div class="theory-card">
+                    <h3 class="font-bold text-blue-700">第一节：心理发展的特点</h3>
+                    <p class="text-sm">认知发展理论、人格发展阶段。</p>
+                </div>
+                <div class="theory-card">
+                    <h3 class="font-bold text-blue-700">第二节：智力差异</h3>
+                    <p class="text-sm">智力结构、测量及分布规律。</p>
+                </div>
+                <div class="theory-card">
+                    <h3 class="font-bold text-blue-700">第三节：人格差异</h3>
+                    <p class="text-sm">性格类型与气质差异。</p>
+                </div>
+                <div class="theory-card">
+                    <h3 class="font-bold text-blue-700">第四节：性别差异</h3>
+                    <p class="text-sm">心理能力的性别异同分析。</p>
+                </div>
+            </div>
+            <div class="mt-10 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+                <p class="font-bold text-blue-800">终点目标：第五节 因材施教</p>
+                <p class="text-sm">将心理规律转化为教学艺术。</p>
+            </div>
+        </div>
+        <div class="footer">Slide 2 / 30</div>
+    </div>
+
+    <!-- Slide 3: Cognitive Development - Piaget -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">1.1 认知发展阶段论 (Piaget)</h2>
+        </div>
+        <div class="content">
+            <div class="flex gap-8">
+                <div class="w-1/2">
+                    [Image of Piaget's stages of cognitive development]
+                </div>
+                <div class="w-1/2 space-y-4">
+                    <div class="p-3 bg-white rounded shadow-sm">
+                        <span class="font-bold text-blue-600">感前处具：</span>
+                        <p class="text-sm">感知运动 (0-2) → 前运算 (2-7) → 具体运算 (7-11) → 形式运算 (11+)</p>
+                    </div>
+                    <div class="highlight-box">
+                        <p class="font-bold">核心机制：</p>
+                        <ul class="text-lg">
+                            <li><strong>同化：</strong> 纳入旧图式</li>
+                            <li><strong>顺应：</strong> 改变旧图式</li>
+                            <li><strong>平衡：</strong> 发展的动力</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Slide 3 / 30</div>
+    </div>
+
+    <!-- Slide 4: Vygotsky -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">1.2 最近发展区 (Vygotsky)</h2>
+        </div>
+        <div class="content">
+            <div class="flex flex-col items-center">
+                <div class="w-full max-w-2xl p-6 bg-white border-2 border-dashed border-green-500 rounded-full text-center">
+                    <p class="text-gray-500 italic">学生现有的水平</p>
+                    <div class="my-4 p-8 bg-green-100 rounded-full border-2 border-green-600 font-bold text-green-900">
+                        最近发展区 (ZPD) —— 需要成人或同伴帮助达到的水平
+                    </div>
+                    <p class="text-gray-500 italic">学生未来可能达到的水平</p>
+                </div>
+                <div class="mt-8 text-xl font-bold text-secondary">
+                    教学启示：教学应走在发展的前面（支架式教学）。
+                </div>
+            </div>
+        </div>
+        <div class="footer">Slide 4 / 30</div>
+    </div>
+
+    <!-- Slide 5: Intelligence Differences -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">2.1 智力的正态分布</h2>
+        </div>
+        <div class="content">
+            <p class="mb-4">智力的个体差异主要体现在“量”的分布上：</p>
+            <div class="w-full h-64 bg-white rounded border flex items-end justify-around px-10 pb-4">
+                <!-- Simple representation of a bell curve -->
+                <div class="h-10 w-8 bg-blue-200"></div>
+                <div class="h-24 w-8 bg-blue-400"></div>
+                <div class="h-48 w-8 bg-blue-600 flex items-center justify-center text-white font-bold">常态</div>
+                <div class="h-24 w-8 bg-blue-400"></div>
+                <div class="h-10 w-8 bg-blue-200"></div>
+            </div>
+            <div class="grid grid-cols-3 mt-6 text-center text-sm">
+                <div class="text-red-600">智力落后 (IQ < 70)</div>
+                <div class="font-bold">中等水平 (IQ 90-110)</div>
+                <div class="text-green-600">智力超常 (IQ > 130)</div>
+            </div>
+        </div>
+        <div class="footer">Slide 5 / 30</div>
+    </div>
+
+    <!-- Slide 6: Multiple Intelligences -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">2.2 多元智力理论 (Gardner)</h2>
+        </div>
+        <div class="content">
+            <p class="text-lg mb-6">“不是孩子有多聪明，而是孩子在哪些方面聪明。”</p>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded text-center text-sm font-bold">言语-语言</div>
+                <div class="p-4 bg-blue-50 rounded text-center text-sm font-bold">逻辑-数理</div>
+                <div class="p-4 bg-blue-50 rounded text-center text-sm font-bold">视觉-空间</div>
+                <div class="p-4 bg-blue-50 rounded text-center text-sm font-bold">音乐-节奏</div>
+                <div class="p-4 bg-green-50 rounded text-center text-sm font-bold">身体-动觉</div>
+                <div class="p-4 bg-green-50 rounded text-center text-sm font-bold">人际交往</div>
+                <div class="p-4 bg-green-50 rounded text-center text-sm font-bold">自知-自省</div>
+                <div class="p-4 bg-green-50 rounded text-center text-sm font-bold">自然观察</div>
+            </div>
+            <div class="mt-8 highlight-box border-secondary">
+                <strong>教育观：</strong> 提倡“乐观的学生观”和“多元的评估观”。
+            </div>
+        </div>
+        <div class="footer">Slide 6 / 30</div>
+    </div>
+
+    <!-- Slide 7: Personality Differences -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">3. 人格差异：性格与气质</h2>
+        </div>
+        <div class="content">
+            <div class="grid grid-cols-2 gap-10">
+                <div class="p-6 bg-white rounded shadow border-t-4 border-accent">
+                    <h4 class="font-bold mb-4 text-accent">气质 (Temperament)</h4>
+                    <ul class="text-base list-disc pl-5">
+                        <li>天生的、无好坏之分。</li>
+                        <li>四种经典类型：胆汁质、多血质、粘液质、抑郁质。</li>
+                        <li><strong>建议：</strong> 胆汁质孩子不宜硬碰硬；抑郁质孩子需温柔对待。</li>
+                    </ul>
+                </div>
+                <div class="p-6 bg-white rounded shadow border-t-4 border-blue-600">
+                    <h4 class="font-bold mb-4 text-blue-600">性格 (Character)</h4>
+                    <ul class="text-base list-disc pl-5">
+                        <li>后天的、有优劣之分。</li>
+                        <li>人格的核心，决定行为的方向。</li>
+                        <li>包含：态度特征、理智特征、情绪特征、意志特征。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Slide 7 / 30</div>
+    </div>
+
+    <!-- Slide 8: Gender Differences -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">4. 性别差异：认知与行为</h2>
+        </div>
+        <div class="content">
+            <table class="w-full text-left border-collapse bg-white">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-3 border">维度</th>
+                        <th class="p-3 border">典型差异特征</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-3 border font-bold">语言能力</td>
+                        <td class="p-3 border">女性通常优于男性（言语流畅、阅读理解）。</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 border font-bold">空间能力</td>
+                        <td class="p-3 border">男性通常优于女性（旋转物体想象、方位感知）。</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 border font-bold">成就动机</td>
+                        <td class="p-3 border">男性偏向竞争与任务指向；女性偏向合作与人际指向。</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="mt-6 text-sm text-red-500 font-bold">注意：性别差异是统计学上的“群体差异”，不可简单套用于每一个个体（避免性别刻板印象）。</p>
+        </div>
+        <div class="footer">Slide 8 / 30</div>
+    </div>
+
+    <!-- Slide 9: Teaching According to Ability -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">5. 因材施教：教学策略</h2>
+        </div>
+        <div class="content">
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <div class="p-4 bg-blue-900 text-white rounded-lg">
+                    <h5 class="font-bold mb-2">针对认知方式差异：</h5>
+                    <p class="text-sm">● 冲动型学生：训练其在答题前停顿思考。<br>● 场依存型学生：提供更多明确的学习导航。</p>
+                </div>
+                <div class="p-4 bg-green-800 text-white rounded-lg">
+                    <h5 class="font-bold mb-2">针对智力差异：</h5>
+                    <p class="text-sm">● 采用同质分组或异质分组。<br>● 提供分层作业和弹性评价指标。</p>
+                </div>
+                <div class="p-4 bg-yellow-700 text-white rounded-lg">
+                    <h5 class="font-bold mb-2">针对性格差异：</h5>
+                    <p class="text-sm">● 给内向学生预留思考时间。<br>● 给外向学生展示的舞台。</p>
+                </div>
+                <div class="p-4 bg-purple-800 text-white rounded-lg">
+                    <h5 class="font-bold mb-2">针对性别差异：</h5>
+                    <p class="text-sm">● 鼓励女孩学习科学(STEM)信心。<br>● 训练男孩的语言表达细致度。</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Slide 9 / 30</div>
+    </div>
+
+    <!-- Slide 10: Summary & Reflection -->
+    <div class="slide">
+        <div class="header">
+            <h2 class="text-3xl font-bold text-blue-900">本章小结</h2>
+        </div>
+        <div class="content flex flex-col justify-center items-center">
+            <div class="p-8 bg-white border-2 border-primary rounded-2xl text-center max-w-2xl">
+                <p class="text-2xl font-bold text-blue-800 mb-6">教育的本质：</p>
+                <p class="text-xl italic">“教育不是注满一桶水，而是点燃一团火。”</p>
+                <hr class="my-6">
+                <p class="text-lg">我们了解心理发展与个别差异，是为了不再用同一把尺子衡量万千生命。</p>
+            </div>
+            <div class="mt-10 text-gray-500">
+                课后思考：如何在你即将实习的课堂中，利用ZPD理论设计一个教学环节？
+            </div>
+        </div>
+        <div class="footer">Slide 10 / 30</div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls">
+        <button class="nav-btn" onclick="prevSlide()"><i class="fas fa-arrow-left"></i></button>
+        <button class="nav-btn" onclick="nextSlide()"><i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const timerDisplay = document.getElementById('timer');
+        let totalTime = 90 * 60;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        // Timer Logic
+        setInterval(() => {
+            if(totalTime > 0) {
+                totalTime--;
+                const mins = Math.floor(totalTime / 60);
+                const secs = totalTime % 60;
+                timerDisplay.innerText = `${mins}:${secs < 10 ? '0'+secs : secs}`;
+            }
+        }, 1000);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Initialize
+        updateSlide();
+    </script>
+</body>
+</html>
