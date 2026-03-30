@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育心理学：知识的学习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --harvard-crimson: #A51C30;
+            --harvard-black: #1E1E1E;
+            --harvard-gray: #525252;
+            --harvard-white: #FFFFFF;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 90vw;
+            height: 50.625vw; /* 16:9 ratio */
+            max-width: 1280px;
+            max-height: 720px;
+            background: var(--harvard-white);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            position: relative;
+            display: none;
+            flex-direction: column;
+            padding: 4% 6%;
+            border-top: 8px solid var(--harvard-crimson);
+        }
+        .slide-container.active {
+            display: flex;
+        }
+        .title-slide {
+            justify-content: center;
+            align-items: flex-start;
+        }
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--harvard-crimson);
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--harvard-crimson);
+            padding-bottom: 0.5rem;
+        }
+        h2 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--harvard-black);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background: var(--harvard-crimson);
+        }
+        .content {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--harvard-black);
+        }
+        .highlight {
+            color: var(--harvard-crimson);
+            font-weight: bold;
+        }
+        .case-box {
+            background: #fdf2f2;
+            border-left: 5px solid var(--harvard-crimson);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--harvard-gray);
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+        .nav-btns {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .nav-btn {
+            background: var(--harvard-crimson);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover {
+            background: #f9f9f9;
+            border-color: var(--harvard-crimson);
+        }
+        .result-msg {
+            display: none;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide-container active title-slide" id="slide-1">
+        <div style="font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--harvard-gray);">Education Psychology Series</div>
+        <h1>第五章：知识的学习</h1>
+        <p style="font-size: 1.5rem; color: var(--harvard-gray);">理解幼儿与小学生知识习得的心理机制</p>
+        <div style="margin-top: 3rem; font-size: 1.1rem;">
+            授课人：教育心理学教研室<br>
+            时长：90分钟
+        </div>
+    </div>
+
+    <!-- Slide 2: Objectives -->
+    <div class="slide-container" id="slide-2">
+        <h2>本章目标 (Learning Objectives)</h2>
+        <div class="content">
+            <ul class="list-disc ml-8 space-y-4">
+                <li>辨析<span class="highlight">广义知识</span>与<span class="highlight">狭义知识</span>的概念及分类。</li>
+                <li>掌握陈述性知识与程序性知识的习得过程。</li>
+                <li>能够运用<span class="highlight">变式练习</span>与<span class="highlight">同化理论</span>解释教学实例。</li>
+                <li>设计符合幼儿及小学生心理发展规律的教学片段。</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 3: Concept 1 -->
+    <div class="slide-container" id="slide-3">
+        <h2>知识的分类：你知道的是哪种“知”？</h2>
+        <div class="grid grid-cols-2 gap-8 content">
+            <div>
+                <p class="font-bold border-b mb-2">陈述性知识 (Declarative)</p>
+                <ul class="list-disc ml-5 text-sm">
+                    <li>回答“是什么”、“为什么”、“怎么样”</li>
+                    <li>主要以<span class="highlight">命题</span>或<span class="highlight">图式</span>形式存储</li>
+                    <li>习得快，遗忘也快</li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-bold border-b mb-2">程序性知识 (Procedural)</p>
+                <ul class="list-disc ml-5 text-sm">
+                    <li>回答“怎么办”</li>
+                    <li>表现为一套<span class="highlight">操作步骤</span>（产生式）</li>
+                    <li>习得慢，但一旦掌握能保持很久</li>
+                </ul>
+            </div>
+            <div class="col-span-2 case-box">
+                <p><strong>生活案例（幼儿园）：</strong><br>
+                孩子知道“过马路要看红绿灯”——这是<span class="highlight">陈述性知识</span>。<br>
+                孩子走到路口看到红灯，能够下意识停住脚步——这是<span class="highlight">程序性知识</span>（智慧技能）。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Stages -->
+    <div class="slide-container" id="slide-4">
+        <h2>知识学习的三阶段模型</h2>
+        <div class="content flex justify-between gap-4 mt-4">
+            <div class="w-1/3 p-4 bg-gray-50 border text-center">
+                <div class="font-bold text-harvard-crimson">1. 习得阶段</div>
+                <p class="text-sm mt-2">注意、激活原有知识、选择性知觉、进入短时记忆</p>
+            </div>
+            <div class="w-1/3 p-4 bg-gray-50 border text-center">
+                <div class="font-bold text-harvard-crimson">2. 巩固与转化</div>
+                <p class="text-sm mt-2">命题网络向产生式转化、变式练习、长时记忆编码</p>
+            </div>
+            <div class="w-1/3 p-4 bg-gray-50 border text-center">
+                <div class="font-bold text-harvard-crimson">3. 提取与迁移</div>
+                <p class="text-sm mt-2">解决新问题、知识在不同情境下的灵活运用</p>
+            </div>
+        </div>
+        <div class="case-box text-sm">
+            <strong>教学提示：</strong> 低年级教学中，第一阶段应强调直观教具的使用，以吸引幼儿的选择性注意。
+        </div>
+    </div>
+
+    <!-- Slide 5: Assimilation Theory -->
+    <div class="slide-container" id="slide-5">
+        <h2>同化理论：新旧知识的连接</h2>
+        <div class="content space-y-6">
+            <p>奥苏伯尔提出，有意义学习的核心是新知识与原有知识建立<span class="highlight">非人为的、实质性</span>的联系。</p>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="border p-3 text-center">
+                    <div class="font-bold mb-1">下位学习</div>
+                    <div class="text-xs text-gray-600">从一般到具体<br>(鸟 → 企鹅)</div>
+                </div>
+                <div class="border p-3 text-center">
+                    <div class="font-bold mb-1">上位学习</div>
+                    <div class="text-xs text-gray-600">从具体到一般<br>(猫、狗 → 动物)</div>
+                </div>
+                <div class="border p-3 text-center">
+                    <div class="font-bold mb-1">并列结合学习</div>
+                    <div class="text-xs text-gray-600">平级关系<br>(遗传与变异)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Case Study: Lower Primary -->
+    <div class="slide-container" id="slide-6">
+        <h2>案例解析：小学低年级的“上位学习”</h2>
+        <div class="grid grid-cols-2 gap-8 items-center">
+            <div class="content">
+                <p><strong>教学情境：</strong></p>
+                <p class="text-base">语文课上，老师先带孩子们复习了“青蛙”、“知了”、“蜻蜓”。</p>
+                <p class="text-base mt-2">接着，老师展示了它们的共同特征（六条腿、身体分节），引导孩子得出：<strong>“它们都属于昆虫。”</strong></p>
+                <p class="highlight mt-4 italic">这就是典型的上位学习过程，帮助孩子构建高层级的认知图式。</p>
+            </div>
+            <div class="bg-gray-100 h-full flex items-center justify-center p-4">
+                <div class="text-center">
+                   <div style="font-size: 4rem;">🦋 🐝 🐞</div>
+                   <div class="text-harvard-gray mt-2">概念图示：具体实例 → 抽象概念</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Variable Practice -->
+    <div class="slide-container" id="slide-7">
+        <h2>变式练习：区分“长方形”与“斜的长方形”</h2>
+        <div class="content">
+            <p><strong>定义：</strong> 在教学中，变换概念的非本质特征，以突出本质特征。</p>
+            <div class="grid grid-cols-3 gap-4 mt-6">
+                <div class="border p-4 text-center">
+                    <div class="w-16 h-10 bg-blue-200 mx-auto mb-2"></div>
+                    <div class="text-sm">正位长方形<br>(常见型)</div>
+                </div>
+                <div class="border p-4 text-center">
+                    <div class="w-16 h-10 bg-red-200 mx-auto mb-2 transform rotate-45"></div>
+                    <div class="text-sm">斜位长方形<br>(变式型)</div>
+                </div>
+                <div class="border p-4 text-center">
+                    <div class="w-20 h-6 bg-green-200 mx-auto mb-2"></div>
+                    <div class="text-sm">极扁长方形<br>(变式型)</div>
+                </div>
+            </div>
+            <p class="text-sm mt-6 text-gray-600">如果不进行变式练习，孩子可能会认为“斜着放的图形就不是长方形了”。</p>
+        </div>
+    </div>
+
+    <!-- Slide 8: Schema Theory -->
+    <div class="slide-container" id="slide-8">
+        <h2>图式理论：大脑的“脚本”</h2>
+        <div class="content">
+            <p><strong>图式 (Schema)：</strong> 围绕某个主题组织的知识网络。它包含变量，可以像模板一样去填充新信息。</p>
+            <div class="case-box mt-4">
+                <strong>案例：去医院的图式 (幼儿园)</strong>
+                <p class="text-sm">挂号 → 等候 → 医生问诊 → 检查/开药</p>
+                <p class="text-sm mt-2">孩子大脑中有了这个“脚本”，下次去不同的医院（变量变换），他们也不会感到完全陌生，能够快速预期接下来的步骤。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Quiz Intro -->
+    <div class="slide-container" id="slide-9">
+        <h2>真题针对性练习 (Checkpoint)</h2>
+        <div class="content italic text-center mt-20">
+            "知识的掌握不在于记忆的数量，而在于连接的质量。"
+        </div>
+    </div>
+
+    <!-- Slide 10: Quiz 1 -->
+    <div class="slide-container" id="slide-10">
+        <div class="text-sm text-harvard-crimson font-bold mb-2">练习 01</div>
+        <h2>单选题</h2>
+        <div class="content">
+            <p>老师给幼儿讲解“鱼”的概念时，不仅给他们看河里的鲤鱼，还给他们看海洋里的鲨鱼和金鱼。这种教学方式属于？</p>
+            <div class="mt-4">
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">A. 概括</button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q1')">B. 变式</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">C. 演绎</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q1')">D. 比较</button>
+            </div>
+            <div id="q1-feedback" class="result-msg"></div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Quiz 2 -->
+    <div class="slide-container" id="slide-11">
+        <div class="text-sm text-harvard-crimson font-bold mb-2">练习 02</div>
+        <h2>单选题</h2>
+        <div class="content">
+            <p>学生在已有“家具”概念的基础上，学习“沙发”这一新概念。这种学习属于？</p>
+            <div class="mt-4">
+                <button class="quiz-option" onclick="checkAnswer(this, true, 'q2')">A. 下位学习（类属学习）</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">B. 上位学习</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">C. 并列结合学习</button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 'q2')">D. 符号学习</button>
+            </div>
+            <div id="q2-feedback" class="result-msg"></div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Summary -->
+    <div class="slide-container" id="slide-12">
+        <h2>课程总结与反思</h2>
+        <div class="content">
+            <p>作为未来的教育者，我们应思考：</p>
+            <ul class="list-disc ml-8 mt-4 space-y-4">
+                <li>如何通过<span class="highlight">激活原有知识</span>来提高幼儿的学习兴趣？</li>
+                <li>在教学中，我们是否提供了足够的<span class="highlight">变式</span>来防止学生形成“死知识”？</li>
+                <li>我们教的是零散的“事实”，还是结构化的“图式”？</li>
+            </ul>
+        </div>
+        <div class="text-center mt-12 text-harvard-crimson font-bold italic">
+            感谢您的聆听，下周我们将探讨“技能的学习”。
+        </div>
+    </div>
+
+    <!-- Global Footer for Slides -->
+    <div class="footer">
+        <div>HARVARD UNIVERSITY | Graduate School of Education</div>
+        <div id="page-num">Slide 1 / 12</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-btns">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function changeSlide(direction) {
+            document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+            currentSlide += direction;
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = (currentSlide === 1);
+            document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+            document.getElementById('page-num').innerText = `Slide ${currentSlide} / ${totalSlides}`;
+        }
+
+        function checkAnswer(btn, isCorrect, qId) {
+            const feedback = document.getElementById(`${qId}-feedback`);
+            feedback.style.display = 'block';
+            
+            // Reset others
+            const options = btn.parentElement.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.style.background = 'white';
+                opt.style.borderColor = '#ddd';
+            });
+
+            if (isCorrect) {
+                btn.style.background = '#dcfce7';
+                btn.style.borderColor = '#22c55e';
+                feedback.innerText = "正确！变式/下位学习理解得非常好。";
+                feedback.style.color = "#15803d";
+            } else {
+                btn.style.background = '#fee2e2';
+                btn.style.borderColor = '#ef4444';
+                feedback.innerText = "再试一次。请根据知识的包容关系或练习特征进行判断。";
+                feedback.style.color = "#b91c1c";
+            }
+        }
+    </script>
+</body>
+</html>
