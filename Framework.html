@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教育心理学：广义知识学习模型</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --harvard-crimson: #A51C30;
+            --harvard-black: #1E1E1E;
+            --harvard-gold: #C4961A;
+            --harvard-white: #FFFFFF;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #222;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 90vw;
+            height: 50.625vw;
+            max-width: 1280px;
+            max-height: 720px;
+            background: var(--harvard-white);
+            position: relative;
+            display: none;
+            flex-direction: column;
+            padding: 40px 60px;
+            border-left: 15px solid var(--harvard-crimson);
+        }
+        .slide-container.active {
+            display: flex;
+        }
+        h1 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--harvard-crimson);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-family: 'Noto Serif SC', serif;
+            color: var(--harvard-black);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .content {
+            font-size: 1.25rem;
+            color: var(--harvard-black);
+            line-height: 1.6;
+        }
+        .step-pill {
+            background: #f3f4f6;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+        }
+        .highlight-red { color: var(--harvard-crimson); font-weight: bold; }
+        .case-box {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 20px;
+            margin-top: 20px;
+            font-style: italic;
+            position: relative;
+        }
+        .case-box::before {
+            content: "CASE STUDY";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--harvard-crimson);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            font-style: normal;
+        }
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            right: 60px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #999;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .nav-btn {
+            background: var(--harvard-crimson);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background: #821626; }
+        .nav-btn:disabled { background: #ccc; }
+        
+        /* Diagram styling */
+        .diagram-node {
+            border: 2px solid var(--harvard-crimson);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            background: white;
+        }
+        .arrow { color: var(--harvard-crimson); font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide-container active" id="slide-1">
+        <div style="margin-top: 100px;">
+            <div style="color: var(--harvard-crimson); font-weight: bold; letter-spacing: 3px; margin-bottom: 10px;">HARVARD GRADUATE SCHOOL OF EDUCATION</div>
+            <h1>广义知识学习模型：<br>三阶段、六步骤与两分支</h1>
+            <p style="font-size: 1.5rem; color: #666;">深度解析知识从“输入”到“应用”的全过程</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: The Framework Overview -->
+    <div class="slide-container" id="slide-2">
+        <h2>模型概览 (The Framework)</h2>
+        <div class="content grid grid-cols-3 gap-6 mt-8">
+            <div class="border-t-4 border-harvard-crimson pt-4">
+                <h3 class="font-bold text-xl mb-2">3 阶段</h3>
+                <p class="text-gray-600 text-sm">习得、巩固与转化、迁移与应用</p>
+            </div>
+            <div class="border-t-4 border-harvard-crimson pt-4">
+                <h3 class="font-bold text-xl mb-2">6 步骤</h3>
+                <p class="text-gray-600 text-sm">从“注意”到“提取”的心理加工流程</p>
+            </div>
+            <div class="border-t-4 border-harvard-crimson pt-4">
+                <h3 class="font-bold text-xl mb-2">2 分支</h3>
+                <p class="text-gray-600 text-sm">陈述性知识分支 vs. 程序性知识分支</p>
+            </div>
+        </div>
+        <div class="case-box mt-10">
+            <strong>核心逻辑：</strong> 知识不是被“灌入”的，而是通过一系列心理加工步骤，最终在长时记忆中形成不同性质的表征。
+        </div>
+    </div>
+
+    <!-- Slide 3: Stage 1 - Acquisition -->
+    <div class="slide-container" id="slide-3">
+        <h2>阶段一：习得阶段 (Acquisition)</h2>
+        <div class="content">
+            <p class="mb-4">这一阶段包含三个关键步骤：</p>
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="step-pill">1. 注意与预期</div>
+                <div class="arrow">→</div>
+                <div class="step-pill">2. 激活原有知识</div>
+                <div class="arrow">→</div>
+                <div class="step-pill">3. 选择性知觉</div>
+            </div>
+            <div class="case-box">
+                <p><strong>生活案例（幼儿园）：</strong><br>
+                老师今天教孩子认识“圆形”。<br>
+                1. 老师拍手说：“看，老师手里有个神奇的盒子！”（<span class="highlight-red">注意</span>）<br>
+                2. 问：“你们还记得圆圆的皮球吗？”（<span class="highlight-red">激活</span>）<br>
+                3. 拿出圆形积木，让孩子摸一摸边缘（<span class="highlight-red">选择性知觉核心特征</span>）。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Stage 2 - Storage -->
+    <div class="slide-container" id="slide-4">
+        <h2>阶段二：巩固与转化阶段 (Storage)</h2>
+        <div class="content">
+            <p class="mb-4">新信息与原有知识结合，进入记忆系统：</p>
+            <div class="flex items-center space-x-4 mb-6">
+                <div class="step-pill">4. 进入短时记忆</div>
+                <div class="arrow">→</div>
+                <div class="step-pill">5. 进入长时记忆 (编码)</div>
+            </div>
+            <div class="grid grid-cols-2 gap-6 mt-4">
+                <div class="p-4 bg-gray-50 border-l-4 border-harvard-gold">
+                    <p class="text-sm font-bold">加工深度</p>
+                    <p class="text-xs">通过精加工（想象、类比）和组织（思维导图）使知识更牢固。</p>
+                </div>
+                <div class="p-4 bg-gray-50 border-l-4 border-harvard-gold">
+                    <p class="text-sm font-bold">生活应用</p>
+                    <p class="text-xs">小学低年级孩子背诵唐诗时，老师通过画图让孩子理解意境，帮助编码。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: The Two Branches -->
+    <div class="slide-container" id="slide-5">
+        <h2>核心重点：两大分支 (Two Branches)</h2>
+        <div class="content">
+            <p class="text-sm mb-6">当知识在长时记忆中被调用时，会产生分化：</p>
+            <div class="flex justify-around items-start">
+                <div class="w-5/12 p-6 border-2 border-harvard-crimson">
+                    <h4 class="font-bold highlight-red mb-2 text-center">分支 A: 陈述性知识</h4>
+                    <p class="text-sm">知识以<span class="highlight-red">命题网络</span>形式存在。学习者能说出、回忆出事实。</p>
+                    <p class="text-xs mt-2 italic text-gray-500">例：知道“3+2=5”这个算式。</p>
+                </div>
+                <div class="w-1/12 text-center text-4xl pt-10">OR</div>
+                <div class="w-5/12 p-6 border-2 border-harvard-crimson">
+                    <h4 class="font-bold highlight-red mb-2 text-center">分支 B: 程序性知识</h4>
+                    <p class="text-sm">知识向<span class="highlight-red">产生式系统</span>转化。学习者表现为能够解决问题（办事能力）。</p>
+                    <p class="text-xs mt-2 italic text-gray-500">例：在买糖果时能正确算出应付多少钱。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Stage 3 - Retrieval -->
+    <div class="slide-container" id="slide-6">
+        <h2>阶段三：提取与迁移 (Retrieval)</h2>
+        <div class="content">
+            <div class="step-pill mb-6">6. 提取与应用</div>
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <p class="font-bold">提取失败的原因：</p>
+                    <ul class="list-disc ml-5 text-sm space-y-2">
+                        <li>存储时编码不清晰（没学透）</li>
+                        <li>缺乏提取线索（死读书，不会联想）</li>
+                        <li>干扰（类似知识混淆）</li>
+                    </ul>
+                </div>
+                <div class="case-box mt-0 text-sm">
+                    <strong>教学建议：</strong><br>
+                    小学老师应多设计“情境教学”。在真实的模拟超市里学习数学，比在课本上做题更有利于知识的<span class="highlight-red">提取与迁移</span>。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Complete Process Map -->
+    <div class="slide-container" id="slide-7">
+        <h2>全流程图示 (The Master Map)</h2>
+        <div class="flex flex-col items-center">
+            <div class="flex gap-2">
+                <div class="diagram-node">1. 注意</div>
+                <div class="diagram-node">2. 激活</div>
+                <div class="diagram-node">3. 知觉</div>
+                <div class="diagram-node">4. 短时记忆</div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="diagram-node w-64">5. 长时记忆 (编码/同化)</div>
+            <div class="flex w-full justify-around mt-4">
+                <div class="flex flex-col items-center">
+                    <div class="arrow">↙</div>
+                    <div class="diagram-node bg-gray-100">陈述性分支 (言语信息)</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="arrow">↘</div>
+                    <div class="diagram-node bg-gray-100">程序性分支 (智慧技能)</div>
+                </div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="diagram-node">6. 提取与反馈 (迁移)</div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Quiz 1 -->
+    <div class="slide-container" id="slide-8">
+        <h2>真题实测 01</h2>
+        <div class="content">
+            <p class="mb-4">老师在黑板上用红笔写下本课的关键词，这主要是为了激发学生学习过程中的哪一个步骤？</p>
+            <div class="grid grid-cols-1 gap-2">
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('错误。激活原有知识需要引导学生回忆旧知。')">A. 激活原有知识</button>
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('正确！红笔书写是为了吸引注意，并让学生在‘选择性知觉’中关注核心信息。')">B. 注意与选择性知觉</button>
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('错误。编码属于进入长时记忆的阶段。')">C. 知识的编码</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Quiz 2 -->
+    <div class="slide-container" id="slide-9">
+        <h2>真题实测 02</h2>
+        <div class="content">
+            <p class="mb-4">根据广义知识学习模型，当一个学生从“知道加法交换律的公式”发展到“能熟练运用该律进行简便运算”，这反映了知识的哪种转化过程？</p>
+            <div class="grid grid-cols-1 gap-2">
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('正确！从陈述性知识（说出公式）转化为程序性知识（实际运用操作）。')">A. 从陈述性向程序性转化</button>
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('错误。这是反向的。')">B. 从程序性向陈述性转化</button>
+                <button class="p-3 border text-left hover:bg-red-50" onclick="alert('错误。这是同一性质内的学习。')">C. 下位学习</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Conclusion -->
+    <div class="slide-container" id="slide-10">
+        <h2>结语：有效的教学</h2>
+        <div class="content">
+            <p class="mb-6">知识学习的本质：</p>
+            <ul class="list-decimal ml-8 space-y-4">
+                <li><span class="highlight-red">精准习得</span>：确保学生注意到了本质特征。</li>
+                <li><span class="highlight-red">深度编码</span>：通过同化和图式让知识在大脑中“安家”。</li>
+                <li><span class="highlight-red">灵活转化</span>：不要让知识停留在“说得出”，而要转化为“做得到”。</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <div>END OF SESSION | LECTURE 05</div>
+            <div>PAGE 10 / 10</div>
+        </div>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="fixed bottom-10 right-10 flex gap-4">
+        <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>PREV</button>
+        <button class="nav-btn" id="nextBtn" onclick="move(1)">NEXT</button>
+    </div>
+
+    <script>
+        let current = 1;
+        const total = 10;
+        function move(dir) {
+            document.getElementById(`slide-${current}`).classList.remove('active');
+            current += dir;
+            document.getElementById(`slide-${current}`).classList.add('active');
+            document.getElementById('prevBtn').disabled = current === 1;
+            document.getElementById('nextBtn').disabled = current === total;
+        }
+    </script>
+</body>
+</html>
